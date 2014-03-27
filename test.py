@@ -2,7 +2,7 @@ __author__ = 'RPANCALD'
 
 
 def main():
-    print("main")
+    print("test")
 
 
 if __name__ == '__main__':
