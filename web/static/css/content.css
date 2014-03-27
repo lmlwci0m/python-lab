@@ -1,0 +1,52 @@
+@charset "utf-8";
+
+nav.scrollableList, section.content {
+    height: 500px;
+    overflow-y: scroll;
+}
+
+nav.scrollableList {
+    width: 250px;
+    border: 1px solid blue;
+    float: left;
+}
+
+nav.scrollableList > ul {
+    padding: 10px;
+    margin: 0px;
+}
+
+nav.scrollableList > ul > li {
+    list-style-type: none;
+    height: 40px;
+    padding-top: 4px;
+    padding-bottom: 4px;
+    font-size: 11px;
+    cursor: pointer;
+}
+
+nav.scrollableList > ul > li ul.sublist {
+    margin: 0px;
+    margin-top: 5px;
+    padding-left: 5px;
+}
+
+nav.scrollableList > ul > li ul.sublist li {
+    list-style-type: none;
+    width: 200px;
+    height: 20px;
+    line-height: 20px;
+    padding-left: 3px;
+}
+
+nav.scrollableList > ul > li ul.sublist li:hover {
+    background-color: black;
+}
+
+section.content {
+    float: left;
+    width: 1000px;
+    border-top: 1px solid blue;
+    border-bottom: 1px solid blue;
+    border-right: 1px solid blue;
+}

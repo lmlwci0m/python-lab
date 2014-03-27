@@ -1,0 +1,12 @@
+@charset "utf-8";
+
+div.curtain {
+    background-color: blue;
+    opacity: 0.1;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 1920px;
+    height: 1080px;
+    display: none;
+}

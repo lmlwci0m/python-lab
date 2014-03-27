@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Title</title>
+    <link rel="stylesheet" href="css/styles.css" />
+    <script language="JavaScript" type="text/javascript" src="scripts/jquery-2.1.0.js"></script>
+    <script language="JavaScript" type="text/javascript" src="scripts/jquery.color-2.1.2.js"></script>
+</head>
+<body>
+
+    <!--
+        conventions:
+        css className
+        css id-name
+
+        tables: http://www.w3schools.com/css/css_table.asp
+        lists: http://www.w3schools.com/css/css_list.asp
+        transparency: http://www.w3schools.com/css/css_image_transparency.asp
+        overflow: http://www.w3schools.com/cssref/pr_pos_overflow.asp
+
+        charset rule: http://www.tutorialspoint.com/css/css_at_rules.htm
+
+        http://code.jquery.com/#color
+        http://api.jquery.com/category/effects/basics/
+        http://api.jquery.com/queue/
+        http://www.learningjquery.com/2009/01/quick-tip-prevent-animation-queue-buildup/#
+        http://api.jquery.com/event.stopPropagation/
+        http://stackoverflow.com/questions/1184955/jquery-event-stoppropagation-not-working
+        https://api.jquery.com/delay/
+        http://learn.jquery.com/plugins/basic-plugin-creation/
+        http://www.lipsum.com/
+    -->
+
+    <div id="o1" style="display: none;">
+        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+    </div>
+
+    <div id="o2" style="display: none;">
+        It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).
+    </div>
+
+    <div id="o3" style="display: none;">
+        Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of "de Finibus Bonorum et Malorum" (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, "Lorem ipsum dolor sit amet..", comes from a line in section 1.10.32.
+    </div>
+
+    <div id="o4" style="display: none;">
+        There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc.
+    </div>
+
+    <script language="JavaScript" type="text/javascript">
+
+        /*
+         * li with content string creation
+         */
+        function getListElement(content) {
+            return "<li>" + content + "</li>";
+        }
+
+        /*
+         * li iteration string creation with common prefix and postfix for content
+         */
+        function getListElementIteration(num, basecontentprefix, basecontentpostfix) {
+            retval = "";
+            for (i = 0; i < num; i++) {
+                retval += getListElement(basecontentprefix + " " + i + ": " + basecontentpostfix) + "\n";
+            }
+            return retval;
+        }
+
+        function getUnorderedListIteration(num, basecontentprefix, basecontentpostfix) {
+            return "<ul>\n" + getListElementIteration(num, basecontentprefix, basecontentpostfix) + "</ul>\n";
+        }
+
+        /*
+         * Shows a div blocking avery operation
+         */
+        function showCurtain() {
+            $("body").append("<div class=\"curtain\"></div>");
+            $(".curtain").fadeIn(400);
+        }
+
+        /*
+         * Removes the blocking dirs
+         */
+        function hideCurtain() {
+            $(".curtain").fadeOut(400, function(){
+                $(".curtain").remove();
+            });
+        }
+
+        function showContent(e){
+            e.preventDefault();
+
+            showCurtain();
+
+            console.log($(this).html());
+
+            /*
+             * Get content from list element and generate a paragraph
+             */
+            content = $(this).html();
+            content = "<p>" + content + "</p>";
+            content = $("#" + $(this).attr("class")).html();
+
+            $("section.content").delay(1000);
+            console.log("after delay");
+            $("section.content").queue(function(){
+                $("section.content").html(content);
+                console.log($(this).html());
+                hideCurtain();
+                $( this ).dequeue();
+            });
+
+            e.stopPropagation();
+
+        }
+
+        function hoverListElementIn(e) {
+            e.preventDefault();
+            $(this).animate({"background-color":"blue", "color":"white"}, 200);
+        }
+
+        function hoverListElementOut(e) {
+            e.preventDefault();
+            $(this).animate({"background-color":"white", "color":"blue"}, 50);
+            if ($(this).data("sliding") == null) {
+                $(this).finish();
+            }
+        }
+
+        function showSublist(e) {
+            e.preventDefault();
+
+            $(this).data("sliding", true);
+            if ($(this).data("sub") == null) {
+                $(this).data("sub", true);
+                sublist = "<ul class=\"sublist\"><li class=\"o1\">Option 1</li><li class=\"o2\">Option 2</li><li class=\"o3\">Option 3</li><li class=\"o4\">Option 4</li></ul>";
+                $(this).append(sublist);
+                $(this).animate({"height":"130px"}, 400, function(){
+                    if ($(this).find(".sublist").length == 0) {
+                        $(this).append(sublist);
+                    }
+                    $(this).find(".sublist li").click(showContent);
+                    $(this).data("sliding", null);
+                });
+            } else {
+                $(this).data("sub", null);
+                $(this).animate({"height":"40px"}, 400, function(){
+                    $(this).find(".sublist").remove();
+                    $(this).data("sliding", null);
+                });
+            }
+        }
+
+        var baseMain;
+
+        $(document).ready(function(){
+
+            baseMain = $("#base-main");
+            baseMainTagName = baseMain.prop("tagName");
+            baseMainTagNameLower = baseMainTagName.toLowerCase();
+
+            console.log(baseMainTagNameLower);
+
+            /*
+             * Putting mock list to nav.scrollableList
+             */
+            $("nav.scrollableList").html(getUnorderedListIteration(20, "Voce", "bla bla fdsif h h fajsdh jka hdsalkh ljdkshf jsdkh aflksdj hf kjashflh ashfbla bla bla bla bla bla"));
+
+            /*
+             * Handler for list selection
+             */
+            $("nav.scrollableList > ul > li").click(showSublist);
+
+            /*
+             * Handler for list element hover
+             */
+            $("nav.scrollableList ul li").hover(hoverListElementIn, hoverListElementOut);
+
+        });
+
+
+
+    </script>
+
+    <section id="base-main">
+
+        <header>
+            <hgroup>
+                <h1>Title</h1>
+            </hgroup>
+        </header>
+
+        <section>
+
+            <!--<table>
+                <tr>
+                    <th>Surname</th>
+                    <th>Name</th>
+                    <th>Address</th>
+                </tr>
+                <tr>
+                    <td>Pancaldi</td>
+                    <td>Roberto</td>
+                    <td>Via Giovanni Tamassia 24</td>
+                </tr>
+                <tr>
+                    <td>Savelli</td>
+                    <td>Daniela</td>
+                    <td>Via Giovanni Tamassia 24</td>
+                </tr>
+            </table>-->
+
+            <nav class="scrollableList"></nav>
+
+            <section class="content"></section>
+
+        </section>
+
+    </section>
+
+</body>
+</html>
