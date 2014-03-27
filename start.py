@@ -2,6 +2,8 @@ __author__ = 'Roberto'
 
 
 def main():
+    """Main execution file."""
+
     print("test main")
 
 
