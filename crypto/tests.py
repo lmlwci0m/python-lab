@@ -1,3 +1,5 @@
+from crypto.analysis import FreqAnalysis
+
 __author__ = 'Roberto'
 
 from functools import partial
@@ -107,6 +109,11 @@ def main():
     #             break
     #
     # print(match)
+
+    fa = FreqAnalysis()
+
+    for key in fa.sylls:
+        print("{}: {}".format(key, fa.sylls[key]))
 
 
 if __name__ == '__main__':
