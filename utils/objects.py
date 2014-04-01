@@ -651,6 +651,24 @@ class ExtendedFactory(BaseFactory):
         def set_text(self, text):
             self.text = "'{0:s}'".format(text)
 
+    class ByteReaderExtended(BaseFactory.ByteReader):
+
+        #BYTE_FORMAT_ELEMENT = ["{:02x}"]
+
+        def __init__(self, filename=None, linelen=8):
+            self.filename = filename
+            self.linelen = linelen
+            self.formatstr = " ".join(self.BYTE_FORMAT_ELEMENT * self.linelen)
+
+        def do_read(self):
+            if self.filename:
+                self.reader = BaseFactory.create_reader(self.filename)
+                self.blocks = self.reader.read_bytes()
+            return self
+
+        def do_get(self, blocks):
+            self.blocks = blocks
+
 
 if __name__ == '__main__':
     # Tests

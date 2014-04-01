@@ -3,7 +3,7 @@ from crypto.analysis import FreqAnalysis
 __author__ = 'Roberto'
 
 from functools import partial
-from utils.objects import BaseFactory
+from utils.objects import BaseFactory, ExtendedFactory
 from crypto.cipherbasic import Transposition, SingleByteXor, Vernam
 
 def E(K, M):
@@ -109,6 +109,14 @@ def main():
     #             break
     #
     # print(match)
+
+    data = ExtendedFactory.ByteReaderExtended()
+
+
+
+    data.do_get(bytes('fsadjifjasoidòfjasvdòiofjasdòo', 'utf-8'))
+
+    data.do_print_block(0, 4)
 
     fa = FreqAnalysis()
 

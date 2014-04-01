@@ -101,3 +101,11 @@ class Vernam(Transposition):
 
     def decode(self, key):
         return self.__transf(key)
+
+
+class Transposition(object):
+
+    def __init__(self, blocks):
+        self.blocks = blocks
+        self.encblocks = bytearray(self.blocks)
+
