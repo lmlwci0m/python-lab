@@ -536,6 +536,25 @@ class BaseFactory(object):
             return self.elements.pop()
 
     class ByteReader(object):
+        """A ByteReader is a class that implements functionalities for reading and comparing bytes from files.
+
+        For getting bytes from a file in memory:
+        - reader = ByteReader("file.ext")
+        - reader.do_read()
+
+        For printing bytes of a file in hexadeciaml format:
+        - reader = ByteReader("file.ext") || reader = BaseFactory.create_byte_reader("file.ext")
+        - reader.do_read()
+        - reader.do_print()       || reader.do_print("output.txt")       ||
+          reader.do_print_block() || reader.do_print_block("output.txt")
+
+        For comparing two blocks of bytes (from two files):
+        - reader_file_a = BaseFactory.create_byte_reader("file_a")
+        - reader_file_b = BaseFactory.create_byte_reader("file_b")
+        - reader_file_a.do_read()
+        - reader_file_b.do_read()
+        - equals = reader_file_a == reader_file_b
+        """
 
         BYTE_FORMAT_ELEMENT = ["{:02x}"]
 
@@ -544,16 +563,17 @@ class BaseFactory(object):
             self.linelen = linelen
             self.reader = BaseFactory.create_reader(filename)
             self.formatstr = " ".join(self.BYTE_FORMAT_ELEMENT * self.linelen)
+            self.blocks = bytes([])
 
         def do_read(self):
             self.blocks = self.reader.read_bytes()
             return self
 
-        def do_print_block(self, offset, size):
+        def do_print_block(self, offset, size, file=None):
             last_format = " ".join(self.BYTE_FORMAT_ELEMENT * size)
             subblock = self.blocks[offset:offset+size]
             outputstr = last_format.format(*subblock)
-            self.__do_print(outputstr, None)
+            self.__do_print(outputstr, file)
 
         @staticmethod
         def __do_print(strobj, fileobj):

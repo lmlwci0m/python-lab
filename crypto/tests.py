@@ -124,5 +124,14 @@ def main():
         print("{}: {}".format(key, fa.sylls[key]))
 
 
+def main2():
+
+    bytes_obj = BaseFactory.create_byte_reader("data/test.txt").do_read()
+
+    t = Transposition(bytes_obj.blocks)
+
+    t.do_blocks()
+
+
 if __name__ == '__main__':
-    main()
+    main2()

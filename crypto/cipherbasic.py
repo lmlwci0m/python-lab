@@ -105,7 +105,18 @@ class Vernam(Transposition):
 
 class Transposition(object):
 
-    def __init__(self, blocks):
+    def __init__(self, blocks, blocksize=2):
+        """blocks is a bytes(immutable) object"""
+
         self.blocks = blocks
+        self.blocksize = blocksize
         self.encblocks = bytearray(self.blocks)
+
+    def do_blocks(self):
+
+        # TODO
+        self.blocked = [self.encblocks[i:i+self.blocksize] for i in range(0, len(self.encblocks), self.blocksize)]
+        print(len(self.blocked))
+
+
 
