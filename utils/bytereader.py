@@ -9,7 +9,7 @@ import sys
 
 def main():
 
-    if (len(sys.argv) < 2):
+    if len(sys.argv) < 2:
         print("""No input file specified.
 Usage:
         bytereader.py inputfile [outputfile]
