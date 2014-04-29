@@ -9,7 +9,7 @@ class Note:
         self.parent = None
 
 
-def getNotes(filepath):
+def get_notes(filepath):
 
     notes = []
 
@@ -40,9 +40,9 @@ def getNotes(filepath):
 
 if __name__ == '__main__':
 
-    filepath = "notes.txt"
+    filename = "notes.txt"
 
-    notes = getNotes(filepath)
+    notes = get_notes(filename)
 
     for note in notes:
 
