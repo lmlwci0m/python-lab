@@ -5,6 +5,8 @@ __author__ = 'roberto'
 
 # Set flag to True for structure creation
 create = True
+# Set flag to True for structure build
+build = True
 
 # Specify here the source base path
 basepath = os.path.join("d:\\", "progetti", "javaworks")
@@ -46,6 +48,6 @@ if __name__ == '__main__':
 
     if create:
         manager = PackageManager.create_project(basepath, packages)
-    else:
+    if build:
         manager = PackageManager.load_project(basepath, packages)
         manager.build_all()
