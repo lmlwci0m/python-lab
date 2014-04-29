@@ -1,3 +1,5 @@
+import os
+
 __author__ = 'roberto'
 
 import xml.etree.ElementTree as ET
@@ -105,9 +107,11 @@ def write_to_notes(notes, filename):
 
 if __name__ == '__main__':
 
-    filename = "notes.txt"
-    xmlfilename = "notes.xml"
-    backfilename = "notesback.txt"
+    basepath = ""
+
+    filename = os.path.join(basepath, "notes.txt")
+    xmlfilename = os.path.join(basepath, "notes.xml")
+    backfilename = os.path.join(basepath, "notesback.txt")
 
     notes = get_notes(filename)
 
