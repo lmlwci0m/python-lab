@@ -1,4 +1,5 @@
 import os
+import sys
 
 __author__ = 'roberto'
 
@@ -107,11 +108,31 @@ def write_to_notes(notes, filename):
 
 if __name__ == '__main__':
 
-    basepath = ""
+    if len(sys.argv) < 2:
+        print("""No input file specified.
+Usage:
+        notesmgmt.py inputfile
+""")
+        sys.exit(0)
 
-    filename = os.path.join(basepath, "notes.txt")
-    xmlfilename = os.path.join(basepath, "notes.xml")
-    backfilename = os.path.join(basepath, "notesback.txt")
+    #basepath = ""
+
+    inputfilefullpath = sys.argv[1]
+
+    if not os.path.isfile(inputfilefullpath):
+        print("Input file {} does not exists".format(inputfilefullpath))
+        sys.exit(0)
+
+    basepath = os.path.dirname(inputfilefullpath)
+
+    filename = inputfilefullpath
+    name = os.path.splitext(os.path.basename(filename))[0]
+    xmlfilename = os.path.join(basepath, name + ".xml")
+    backfilename = os.path.join(basepath, name + "back.txt")
+
+    #filename = os.path.join(basepath, "notes.txt")
+    #xmlfilename = os.path.join(basepath, "notes.xml")
+    #backfilename = os.path.join(basepath, "notesback.txt")
 
     notes = get_notes(filename)
 

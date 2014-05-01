@@ -1,14 +1,15 @@
 import subprocess
+from javamgmt import environment
 from javamgmt.classcreator import JavaMgmt
 
-__author__ = 'RPANCALD'
+__author__ = 'roberto'
+
 
 
 class CompilerLauncher(JavaMgmt):
 
-    cmd = "c:\\Program Files\\Java\\jdk1.8.0\\bin\\javac.exe"
-
-    def __init__(self):
+    def __init__(self, cmd=environment.WIN_JAVA_8):
+        self.cmd = cmd
         super(CompilerLauncher, self).__init__()
 
     def compile_class(self, filepath):

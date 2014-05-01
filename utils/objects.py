@@ -13,6 +13,63 @@ import os
 
 class UtilsFactory(object):
 
+    class Environment(object):
+        """Class for environment management."""
+
+        SEP = os.pathsep
+
+        PATH_KEY = 'PATH'
+
+        JAVA_KEYS = [
+            'JAVA_HOME',
+            'M2_HOME',
+            'CLASSPATH',
+            'M2',
+        ]
+
+        PYTHON_KEYS = [
+            'PYTHONSTARTUP',
+            'PYTHONUNBUFFERED',
+            'PYTHONPATH',
+        ]
+
+        GO_KEYS = [
+            'GOROOT',
+            'GOPATH',
+        ]
+
+        WIN_KEYS = [
+            'SYSTEMROOT',
+            'WINDIR',
+            'OS',
+        ]
+
+        FORMAT_STR="{}={}"
+
+        def __init__(self):
+            self.env = os.environ
+            self.path = self.env[self.PATH_KEY].split(self.SEP)
+
+        def _show_env(self, key_list, format_str=FORMAT_STR):
+            for entry in key_list:
+                print(format_str.format(entry, self.env.get(entry, '[None]')))
+
+        def show_path(self):
+            for entry in self.path:
+                print(entry)
+
+        def show_java(self):
+            self._show_env(self.JAVA_KEYS)
+
+        def show_python(self):
+            self._show_env(self.PYTHON_KEYS)
+
+        def show_all(self):
+            for key in self.env.keys():
+                print(self.FORMAT_STR.format(key, self.env[key]))
+
+
+
     class FileMasks(object):
         """Wrapper for chmod operations. Includes various methods for add and removal of permissions to filenames.
     Usage:
@@ -226,6 +283,10 @@ class UtilsFactory(object):
     @classmethod
     def create_filemasks(cls):
         return cls.FileMasks()
+
+    @classmethod
+    def create_environment(cls):
+        return cls.Environment()
 
 
 class TextFactory(object):
