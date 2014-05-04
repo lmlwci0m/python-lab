@@ -6,6 +6,26 @@ __author__ = 'roberto'
 import xml.etree.ElementTree as ET
 
 
+TEMPLATE_TONOTE = """###Title:{0:s}
+###Parent:{1:s}
+###Tag:{2:s}
+###Notes:{3:s}"""
+
+TEMPLATE_TAGS = "        <tag>{}</tag>"
+
+TEMPLATE_TAG_1 = """<note>
+    <title>{0:s}</title>
+    <parent>{1:s}</parent>
+    <tags>
+{2:s}
+    </tags>
+    <notes><![CDATA["""
+
+TEMPLATE_TAG_2 = """]]></notes>
+</note>
+"""
+
+
 class Note:
     def __init__(self):
         self.notes = ''
@@ -14,22 +34,11 @@ class Note:
         self.parent = ''
 
     def to_note(self):
-        return """###Title:{0:s}
-###Parent:{1:s}
-###Tag:{2:s}
-###Notes:{3:s}""".format(self.title, self.parent, self.tag, self.notes)
+        return TEMPLATE_TONOTE.format(self.title, self.parent, self.tag, self.notes)
 
     def to_xml(self):
-        tags = "\n".join(["        <tag>{}</tag>".format(tag) for tag in self.tag.split("|")])
-        return """<note>
-    <title>{0:s}</title>
-    <parent>{1:s}</parent>
-    <tags>
-{2:s}
-    </tags>
-    <notes><![CDATA[""".format(self.title, self.parent, tags) + self.notes + """]]></notes>
-</note>
-"""
+        tags = "\n".join([TEMPLATE_TAGS.format(tag) for tag in self.tag.split("|")])
+        return TEMPLATE_TAG_1 .format(self.title, self.parent, tags) + self.notes + TEMPLATE_TAG_2
 
 
 def get_notes(filepath):
@@ -115,8 +124,6 @@ Usage:
 """)
         sys.exit(0)
 
-    #basepath = ""
-
     inputfilefullpath = sys.argv[1]
 
     if not os.path.isfile(inputfilefullpath):
@@ -130,10 +137,6 @@ Usage:
     xmlfilename = os.path.join(basepath, name + ".xml")
     backfilename = os.path.join(basepath, name + "back.txt")
 
-    #filename = os.path.join(basepath, "notes.txt")
-    #xmlfilename = os.path.join(basepath, "notes.xml")
-    #backfilename = os.path.join(basepath, "notesback.txt")
-
     notes = get_notes(filename)
 
     write_to_xml(notes, xmlfilename)
@@ -141,10 +144,3 @@ Usage:
     notelist = get_notes_xml(xmlfilename)
 
     write_to_notes(notelist, backfilename)
-
-#    for note in notes:
-#
-#        print("------------------------------------------------------------------\n{} [{}]\n{}\n{}".format(note.title,
-#                                                                                                           note.parent,
-#                                                                                                           note.tag,
-#                                                                                                           note.notes))
