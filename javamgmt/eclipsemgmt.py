@@ -16,7 +16,22 @@ class EclipseMgmt(object):
             print(entry)
 
 
+class EclipseProjectMgmt(object):
+
+    def __init__(self, project_path):
+        self.project_path = project_path
+        self.java_source_path = os.path.join(self.project_path, "src", "main", "java")
+        self.java_resources_path = os.path.join(self.project_path, "src", "main", "resources")
+
+    def normalize_web(self):
+        if not os.path.isdir(self.java_source_path):
+            os.mkdir(self.java_source_path)
+
+
 if __name__ == '__main__':
 
-    em = EclipseMgmt()
-    em.show_dirs()
+    webtools_path = "D:\\progetti\\java_projects_eclipse_kepler\\workspace_sr2\\webtools"
+    EclipseProjectMgmt(webtools_path).normalize_web()
+
+    #em = EclipseMgmt()
+    #em.show_dirs()
