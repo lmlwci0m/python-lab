@@ -688,9 +688,9 @@ class BaseFactory(object):
 
     class ByteReaderExIterator(object):
 
-        def __init__(self, byte_reader):
-            self.fileobj = open(byte_reader.reader.filename, "rb")
-            self.linelen = byte_reader.linelen
+        def __init__(self, byte_reader_ex):
+            self.fileobj = open(byte_reader_ex.filename, "rb")
+            self.linelen = byte_reader_ex.linelen
             self.next_line = functools.partial(self.fileobj.read, self.linelen)
 
         def __next__(self):
@@ -700,20 +700,30 @@ class BaseFactory(object):
                 raise StopIteration
             return element
 
-    class ByteReaderEx(ByteReader):
+    class ByteReaderEx(object):
+
+        BYTE_FORMAT_ELEMENT = ["{:02x}"]
 
         def __init__(self, filename, linelen=8):
-            super().__init__(filename, linelen)
+            self.filename = filename
+            self.linelen = linelen
 
         def __iter__(self):
             return BaseFactory.ByteReaderExIterator(self)
+
+        @staticmethod
+        def __do_print(strobj, fileobj):
+            if fileobj is None:
+                print(strobj)
+            else:
+                print(strobj, file=fileobj)
 
         def do_print(self, file=None):
 
             for subblock in self:
                 str_format = " ".join(self.BYTE_FORMAT_ELEMENT * len(subblock))
                 outputstr = str_format.format(*subblock)
-                self._do_print(outputstr, file)
+                self.__do_print(outputstr, file)
 
     @classmethod
     def create_byte_reader(cls, filename, linelen=8):

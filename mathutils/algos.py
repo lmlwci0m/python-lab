@@ -47,8 +47,9 @@ def main():
     print_for("test_elements", test_elements)
     print_iter("test_elements", test_elements)
 
-    br = objects.BaseFactory.create_byte_reader_ex('data/test.txt', 10)
-    br.do_print()
+    br = objects.BaseFactory.create_byte_reader_ex('data/test.txt', 32)
+    with open("data/dataout.txt", "w") as f:
+        br.do_print(f)
 
 
 if __name__ == '__main__':
