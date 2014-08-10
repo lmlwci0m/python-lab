@@ -1,5 +1,7 @@
 #!/usr/bin/env python2
 
+__author__ = 'roberto'
+
 import sys
 
 def fac(n):

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-__author__ = 'Roberto'
+__author__ = 'roberto'
 
 import sys
 import os

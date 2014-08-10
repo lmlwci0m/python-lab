@@ -1,6 +1,6 @@
 import sys
 
-__author__ = 'Roberto'
+__author__ = 'roberto'
 
 
 DEFAULT_FILE_ENCODING = "utf-8"

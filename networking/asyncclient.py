@@ -6,6 +6,7 @@
 import socket
 import sys
 
+__author__ = 'roberto'
 
 PROTOCOL_MESSAGE_LEN_FIELD_LEN = 4
 NETWORK_ENDIANNESS = 'big'

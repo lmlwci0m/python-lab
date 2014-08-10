@@ -1,7 +1,7 @@
 import os
 from utils import encutils
 
-__author__ = 'Roberto'
+__author__ = 'roberto'
 
 import smtplib
 

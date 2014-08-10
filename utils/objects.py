@@ -1,9 +1,8 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 import functools
-import itertools
 
-__author__ = 'Roberto'
+__author__ = 'roberto'
 
 
 import sqlite3

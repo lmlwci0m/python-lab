@@ -3,7 +3,7 @@
 #
 # bytereader.py: simple program for read bytes of a file.
 
-__author__ = 'Roberto'
+__author__ = 'roberto'
 
 from utils import objects
 import sys

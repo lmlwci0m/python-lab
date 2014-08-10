@@ -1,4 +1,4 @@
-__author__ = 'RPANCALD'
+__author__ = 'roberto'
 
 
 WEB_XML_SERVLET_TEMPLATE = """

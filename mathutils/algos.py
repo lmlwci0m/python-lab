@@ -47,7 +47,7 @@ def main():
     print_for("test_elements", test_elements)
     print_iter("test_elements", test_elements)
 
-    br = objects.BaseFactory.create_byte_reader_ex('test.txt', 10)
+    br = objects.BaseFactory.create_byte_reader_ex('data/test.txt', 10)
     br.do_print()
 
 

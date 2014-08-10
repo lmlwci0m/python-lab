@@ -24,6 +24,7 @@ import socket
 import sys
 import select
 
+__author__ = 'roberto'
 
 MSGLEN_FIELD_SZ = 4  # Default message lenght number of byte representation
 BYTE_ENDIANNESS = 'big'  # Default endianness ('big' or 'little')

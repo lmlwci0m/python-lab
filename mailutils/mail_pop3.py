@@ -1,6 +1,6 @@
 import os
 
-__author__ = 'Roberto'
+__author__ = 'roberto'
 
 import poplib
 from email import parser
