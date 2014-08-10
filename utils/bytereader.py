@@ -1,44 +1,53 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
+#
+# bytereader.py: simple program for read bytes of a file.
 
 __author__ = 'Roberto'
 
 from utils import objects
 import sys
 
+MESSAGE_USAGE = """No input file specified.
+Usage:
+        bytereader.py inputfile [outputfile]
+"""
+
+MESSAGE_USAGE_2 = """Offset and length must be specified as integers.
+Usage:
+        bytereader.py inputfile [outputfile | offset, size]
+"""
+
 
 def main():
 
     if len(sys.argv) < 2:
-        print("""No input file specified.
-Usage:
-        bytereader.py inputfile [outputfile]
-""")
+        print(MESSAGE_USAGE)
         sys.exit(0)
 
     output = None if (len(sys.argv) != 3) else sys.argv[2]
 
-    br = objects.BaseFactory.create_byte_reader(sys.argv[1], 32)
+    byte_reader = objects.BaseFactory.create_byte_reader(sys.argv[1], 32)  # No operations
 
-    br.do_read()
+    byte_reader.do_read()  # Read entire file
 
     if not output:
+
         if len(sys.argv) == 4:
             try:
                 offset = int(sys.argv[2])
                 size = int(sys.argv[3])
             except ValueError:
-                print("""Offset and length must be specified as integers.
-Usage:
-        bytereader.py inputfile [outputfile | offset, size]
-""")
+                print(MESSAGE_USAGE_2)
                 sys.exit(0)
-            br.do_print_block(offset, size)
+            byte_reader.do_print_block(offset, size)
+
         else:
-            br.do_print()
+            byte_reader.do_print()
+
     else:
         with open(output, "w") as f:
-            br.do_print(f)
+            byte_reader.do_print(f)
 
 
 

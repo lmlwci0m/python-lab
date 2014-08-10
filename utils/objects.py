@@ -525,13 +525,19 @@ class BaseFactory(object):
         """File object reading helper functions."""
 
         def __init__(self, filename):
+            """Only sets filename. No other operation."""
+
             self.filename = filename
 
         def read(self):
+            """Read entire file as text."""
+
             with open(self.filename) as f:
                 return f.read()
 
         def read_bytes(self):
+            """Read entire file as binary (bytes)."""
+
             with open(self.filename, "rb") as f:
                 return f.read()
 
@@ -622,7 +628,7 @@ class BaseFactory(object):
         def __init__(self, filename, linelen=8):
             self.filename = filename
             self.linelen = linelen
-            self.reader = BaseFactory.create_reader(filename)
+            self.reader = BaseFactory.create_reader(filename)  # Only create reader
             self.formatstr = " ".join(self.BYTE_FORMAT_ELEMENT * self.linelen)
             self.blocks = bytes([])
 
@@ -644,6 +650,8 @@ class BaseFactory(object):
                 print(strobj, file=fileobj)
 
         def __eq__(self, other):
+            """Overload of equality operator. Checks if two byte blocks are equal."""
+
             match = True
             if len(self.blocks) != len(other.blocks):
                 match = False
