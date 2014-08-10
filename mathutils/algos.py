@@ -1,6 +1,25 @@
+from utils import objects
 from utils.printingutils import print_iter, print_for
 
 __author__ = 'roberto'
+
+
+class TestListIterator(object):
+    """Iterator test implementation."""
+
+    def __init__(self, parent):
+        self.parent = parent
+        self.counter = 0
+        self.count = len(parent.elements)
+
+    def __next__(self):
+        if self.counter == self.count: # Exhaustion
+            raise StopIteration
+        ref, self.counter = self.counter, self.counter + 1
+        return str(self.parent.elements[ref])
+
+    def __iter__(self):
+        return TestListIterator(self.parent)
 
 
 class TestList(object):
@@ -8,16 +27,8 @@ class TestList(object):
     def __init__(self):
         self.elements = [1,2,3,4]
 
-    def __next__(self):
-        if self.counter == len(self.elements):
-            raise StopIteration()
-        retval = self.elements[self.counter]
-        self.counter += 1
-        return str(retval)
-
     def __iter__(self):
-        self.counter = 0
-        return self
+        return TestListIterator(self)
 
 
 def main():
@@ -35,6 +46,10 @@ def main():
 
     print_for("test_elements", test_elements)
     print_iter("test_elements", test_elements)
+
+    br = objects.BaseFactory.create_byte_reader_ex('test.txt', 10)
+    br.do_print()
+
 
 if __name__ == '__main__':
     main()

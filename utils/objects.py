@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
+import functools
+import itertools
 
 __author__ = 'Roberto'
 
@@ -640,10 +642,10 @@ class BaseFactory(object):
             last_format = " ".join(self.BYTE_FORMAT_ELEMENT * size)
             subblock = self.blocks[offset:offset+size]
             outputstr = last_format.format(*subblock)
-            self.__do_print(outputstr, file)
+            self._do_print(outputstr, file)
 
         @staticmethod
-        def __do_print(strobj, fileobj):
+        def _do_print(strobj, fileobj):
             if fileobj is None:
                 print(strobj)
             else:
@@ -683,11 +685,44 @@ class BaseFactory(object):
 
                     outputstr = last_format.format(*subblock)
 
-                self.__do_print(outputstr, file)
+                self._do_print(outputstr, file)
+
+    class ByteReaderExIterator(object):
+
+        def __init__(self, byte_reader):
+            self.fileobj = open(byte_reader.reader.filename, "rb")
+            self.linelen = byte_reader.linelen
+            self.next_line = functools.partial(self.fileobj.read, self.linelen)
+
+        def __next__(self):
+            element = self.next_line()
+            if element == b'':
+                self.fileobj.close()
+                raise StopIteration
+            return element
+
+    class ByteReaderEx(ByteReader):
+
+        def __init__(self, filename, linelen=8):
+            super().__init__(filename, linelen)
+
+        def __iter__(self):
+            return BaseFactory.ByteReaderExIterator(self)
+
+        def do_print(self, file=None):
+
+            for subblock in self:
+                str_format = " ".join(self.BYTE_FORMAT_ELEMENT * len(subblock))
+                outputstr = str_format.format(*subblock)
+                self._do_print(outputstr, file)
 
     @classmethod
     def create_byte_reader(cls, filename, linelen=8):
         return cls.ByteReader(filename, linelen)
+
+    @classmethod
+    def create_byte_reader_ex(cls, filename, linelen=8):
+        return cls.ByteReaderEx(filename, linelen)
 
     @classmethod
     def create_stack(cls):
