@@ -6,7 +6,6 @@ __author__ = 'roberto'
 
 
 import sqlite3
-import string
 import array
 import stat
 import os
@@ -725,6 +724,66 @@ class BaseFactory(object):
                 outputstr = str_format.format(*subblock)
                 self.__do_print(outputstr, file)
 
+    class StructuredWriterEx(Writer):
+        """Newline-separated record writer to file."""
+
+        def __init__(self, filename, sep):
+            super(BaseFactory.StructuredWriterEx, self).__init__(filename)
+            self.fileobj = None
+            self.sep = sep
+
+        def __enter__(self):
+            self.fileobj = open(self.filename, "a")
+            return self
+
+        def __exit__(self, exc_type, exc_val, exc_tb):
+            self.fileobj.close()
+            self.fileobj = None
+            if exc_val:
+                return False
+            return True
+
+        def append_structured(self, seq):
+            val = self.fileobj.write(self.sep.join(seq) + "\n")
+            self.fileobj.flush()
+            return val
+
+    class StructuredReaderExIterator(object):
+        """Iterator for structured reader."""
+
+        def __init__(self, structured_reader_ex):
+            self.fileobj = structured_reader_ex.fileobj
+            self.sep = structured_reader_ex.sep
+
+        def __next__(self):
+            element = self.fileobj.readline()[0:-1].split(self.sep)
+            if element == ['']:
+                raise StopIteration
+            return element
+
+    class StructuredReaderEx(Reader):
+        """Newline-separated record reader from file."""
+
+        def __init__(self, filename, sep):
+            super(BaseFactory.StructuredReaderEx, self).__init__(filename)
+            self.fileobj = None
+            self.sep = sep
+
+        def __enter__(self):
+            self.fileobj = open(self.filename)
+            return self
+
+        def __exit__(self, exc_type, exc_val, exc_tb):
+            self.fileobj.close()
+            self.fileobj = None
+            return True
+
+        def __iter__(self):
+            return BaseFactory.StructuredReaderExIterator(self)
+
+        def read_structured(self):
+            return self.fileobj.readline()[0:-1].split(self.sep)
+
     @classmethod
     def create_byte_reader(cls, filename, linelen=8):
         return cls.ByteReader(filename, linelen)
@@ -732,6 +791,14 @@ class BaseFactory(object):
     @classmethod
     def create_byte_reader_ex(cls, filename, linelen=8):
         return cls.ByteReaderEx(filename, linelen)
+
+    @classmethod
+    def create_structured_writer_ex(cls, filename, sep):
+        return cls.StructuredWriterEx(filename, sep)
+
+    @classmethod
+    def create_structured_reader_ex(cls, filename, sep):
+        return cls.StructuredReaderEx(filename, sep)
 
     @classmethod
     def create_stack(cls):
