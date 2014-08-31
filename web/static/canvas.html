@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+
+    <style scoped="scoped">
+        #canv {
+            border: 1px solid blue;
+        }
+        .left {float: left;}
+        .right {float: left;}
+    </style>
+
+    <script type="text/javascript">
+
+        function start(context, x, y) {
+            ax = x + 300;
+            ay = 300 - y;
+            context.beginPath();
+            context.moveTo(ax, ay);
+        }
+
+        function draw(context, x, y) {
+            ax = x + 300;
+            ay = 300 - y;
+            context.lineTo(ax, ay);
+        }
+
+        function end(context) {
+            context.stroke();
+        }
+
+        function quadratic(context, x) {
+            y = x * x;
+            draw(context, x, y);
+        }
+
+        function linear(context, x) {
+            y = x;
+            draw(context, x, y);
+        }
+
+        function double(context, x) {
+            y = (2*x) + 1;
+            draw(context, x, y);
+        }
+
+        function compute() {
+
+            activate();
+
+            var canv = document.getElementById("canv");
+
+            var context = canv.getContext("2d");
+
+            var formula = document.getElementById("formula").value;
+
+            start(context, -300, -300);
+            for (x = -300; x <= 300; x++) {
+                y = eval(formula);
+                console.log(x + " " + y);
+                //double(context, x);
+                draw(context, x, y);
+            }
+            end(context, x, x);
+
+        }
+
+        function activate(){
+            var canv = document.getElementById("canv");
+
+            canv.width = canv.width;
+
+            var context = canv.getContext("2d");
+            context.strokeStyle = "#D4ECFC";
+
+            var y = 0;
+            for (y = 0; y <= 600; y += 10) {
+                context.beginPath();
+                context.moveTo(0, y);
+                context.lineTo(600, y);
+                context.stroke();
+            }
+
+            var x = 0;
+            for (x = 0; x <= 600; x += 10) {
+                context.beginPath();
+                context.moveTo(x, 0);
+                context.lineTo(x, 600);
+                context.stroke();
+            }
+
+            context.strokeStyle = "#005994";
+
+            context.beginPath();
+            context.moveTo(0, 300);
+            context.lineTo(600, 300);
+            context.stroke();
+
+            context.beginPath();
+            context.moveTo(300, 0);
+            context.lineTo(300, 600);
+            context.stroke();
+
+        }
+    </script>
+
+    <div>
+        <div class="left">
+            <canvas id="canv" width="600" height="600">
+                <script type="text/javascript">
+                    activate();
+                </script>
+            </canvas>
+        </div>
+        <div class="right">
+            <ul>
+                <li>y = <input id="formula" type="text" /></li>
+                <li><input type="button" onclick="compute();" value="compute"></li>
+            </ul>
+        </div>
+    </div>
+
+    </body>
+</html>
