@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Title</title>
+        <link rel="stylesheet" href="css/main.css" />
+    </head>
+    <body>
+
+        <div data-ng-app="" data-ng-init="type='test'" data-ng-controller="initapp">
+
+            <p>Type: <span data-ng-bind="type" ></span></p>
+
+            <p>Name: <input type="text" data-ng-model="name"></p>
+
+            <p data-ng-bind="name + 'pippo'" data-ng-controller="initapp2"></p>
+
+            <input type="hidden" data-ng-bind="name"/>
+
+        </div>
+
+        <script>
+            function initapp() {
+
+            }
+            function initapp2() {
+
+            }
+        </script>
+
+        <script language="JavaScript" type="text/javascript" src="scripts/angular.js"></script>
+
+    </body>
+</html>
