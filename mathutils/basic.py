@@ -20,7 +20,7 @@ def cb(n, k):
 
 
 def pythatriples():
-    """FInd pythagorean triples up to 1000."""
+    """Find pythagorean triples up to 1000."""
 
     #triples = []
 
@@ -40,15 +40,23 @@ def pythatriples():
 
 
 if __name__ == '__main__':
-    if len(sys.argv) > 2:
-        n = float(sys.argv[1])
-        k = float(sys.argv[2])
-        print(cb(n, k))
-    else:
-        print("plase specify n, k")
 
+    c = 1 + 1j
 
-    pythatriples()
+    print(c.real)
+    print(c.imag)
+
+    print(1j ** 2)
+
+    # if len(sys.argv) > 2:
+    #     n = float(sys.argv[1])
+    #     k = float(sys.argv[2])
+    #     print(cb(n, k))
+    # else:
+    #     print("plase specify n, k")
+    #
+    #
+    # pythatriples()
 
     # with BaseFactory.create_structured_writer_ex("data/structuredtest.txt") as sw:
     #     sw.append_structured(('1', '2', '3', '4', '5'), ',')
