@@ -870,6 +870,20 @@ class ExtendedFactory(BaseFactory):
             self.blocks = blocks
 
 
+class ObjectsFactory(object):
+    """Factory fro creation of generic objects."""
+
+    class BaseElement(object):
+        """A BaseElement is a class defined for the creation of generic objects without attributes."""
+
+        def __init__(self):
+            pass
+
+    @classmethod
+    def create_base_element(cls):
+        return cls.BaseElement()
+
+
 if __name__ == '__main__':
     # Tests
     bu = BaseFactory.create_bytes_utils()
