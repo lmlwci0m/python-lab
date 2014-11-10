@@ -566,6 +566,9 @@ class BaseFactory(object):
             self.index = 0
             self.top = 0
 
+        def is_empty(self):
+            return self.index == 0
+
         def enqueue(self, element):
             if self.index == self.max:
                 return False

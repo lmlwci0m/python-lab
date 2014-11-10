@@ -8,6 +8,10 @@ class Transposition(object):
     Key = 13 - Russian Army Cipher during WW
 
     Cost: O(n)
+
+    usage:
+        cipher = Transposition(byteblocks)
+        cipher.encode(key)
     """
 
     def __init__(self, blocks):
@@ -103,20 +107,20 @@ class Vernam(Transposition):
         return self.__transf(key)
 
 
-class Transposition(object):
-
-    def __init__(self, blocks, blocksize=2):
-        """blocks is a bytes(immutable) object"""
-
-        self.blocks = blocks
-        self.blocksize = blocksize
-        self.encblocks = bytearray(self.blocks)
-
-    def do_blocks(self):
-
-        # TODO
-        self.blocked = [self.encblocks[i:i+self.blocksize] for i in range(0, len(self.encblocks), self.blocksize)]
-        print(len(self.blocked))
+#class Transposition(object):
+#
+#    def __init__(self, blocks, blocksize=2):
+#        """blocks is a bytes(immutable) object"""
+#
+#        self.blocks = blocks
+#        self.blocksize = blocksize
+#        self.encblocks = bytearray(self.blocks)
+#
+#    def do_blocks(self):
+#
+#        # TODO
+#        self.blocked = [self.encblocks[i:i+self.blocksize] for i in range(0, len(self.encblocks), self.blocksize)]
+#        print(len(self.blocked))
 
 
 
