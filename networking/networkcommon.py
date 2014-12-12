@@ -7,10 +7,13 @@ class AbstractProt(object):
 
     MSGLEN_FIELD_SZ = 4  # Default message lenght number of byte representation
     NETWORK_ENDIANNESS = 'big'  # Default endianness ('big' or 'little')
-    DEFAULT_RECV_SIZE = 8192
+    #DEFAULT_RECV_SIZE = 8192
 
     def __init__(self, client_socket):
-        '''Initializes protocol.'''
+        """Initializes protocol.
+
+            Start status is 0.
+        """
 
         #
         # Socket instance to remote endpoint
@@ -60,7 +63,7 @@ class AbstractProt(object):
     def get_str_encoded(self, name):
         return self.data[name].encode(self.STRING_DEFAULT_ENCODING)
 
-    def get_strlen_bytes(self, name):
+    def get_str_len_encoded(self, name):
         return len(self.data[name]).to_bytes(self.MSGLEN_FIELD_SZ, self.NETWORK_ENDIANNESS)
 
     def idle(self):

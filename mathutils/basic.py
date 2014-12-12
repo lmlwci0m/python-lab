@@ -39,13 +39,21 @@ def pythatriples():
     #return triples
 
 
+def do_union(la, lb):
+
+    return la | lb
+
+
+def get_expicit_range(start_index, end_index):
+    return range(start_index, end_index + 1)
+
+
 if __name__ == '__main__':
 
     c = 1 + 1j
 
     print(c.real)
     print(c.imag)
-
     print(1j ** 2)
 
     # if len(sys.argv) > 2:
