@@ -1,9 +1,9 @@
-from networking import networkcommon
+from . import networkcommon
 
 __author__ = 'roberto'
 
 
-class AbstractProtServer(networkcommon.AbstractProt):
+class AbstractProtocolServer(networkcommon.AbstractProtocol):
     """General implementation of socket wrapper for initialization.
 
         General steps for sending a message:
@@ -83,7 +83,7 @@ class AbstractProtServer(networkcommon.AbstractProt):
         the client list is set.
         """
 
-        super(AbstractProtServer, self).__init__(client_socket)
+        super(AbstractProtocolServer, self).__init__(client_socket)
 
         self.data_send = None
         self.data_recv = None

@@ -1,7 +1,7 @@
 __author__ = 'roberto'
 
 
-class AbstractProt(object):
+class AbstractProtocol(object):
 
     STRING_DEFAULT_ENCODING = "utf-8"
 

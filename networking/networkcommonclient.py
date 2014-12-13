@@ -1,9 +1,9 @@
-from networking import networkcommon
+from . import networkcommon
 
 __author__ = 'roberto'
 
 
-class AbstractProtClient(networkcommon.AbstractProt):
+class AbstractProtocolClient(networkcommon.AbstractProtocol):
     """General implementation of socket wrapper for initialization.
 
         General steps for receiving a message:
@@ -32,6 +32,6 @@ class AbstractProtClient(networkcommon.AbstractProt):
     def __init__(self, client_socket):
         """Only socket is wrapped."""
 
-        super(AbstractProtClient, self).__init__(client_socket)
+        super(AbstractProtocolClient, self).__init__(client_socket)
 
         self.define_protocol()

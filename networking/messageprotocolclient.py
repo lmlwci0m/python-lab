@@ -1,9 +1,9 @@
-from networking.networkcommonclient import AbstractProtClient
+from .networkcommonclient import AbstractProtocolClient
 
 __author__ = 'roberto'
 
 
-class MessageProtocolClient(AbstractProtClient):
+class MessageProtocolClient(AbstractProtocolClient):
 
     def status_0(self):
 

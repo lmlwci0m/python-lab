@@ -1,9 +1,9 @@
-from networking.networkcommonserver import AbstractProtServer
+from .networkcommonserver import AbstractProtocolServer
 
 __author__ = 'roberto'
 
 
-class FileProtocolServer(AbstractProtServer):
+class FileProtocolServer(AbstractProtocolServer):
 
     ST_READY_MSG_LEN = 0
     ST_READY_MSG_LEN_CONTINUE = 100

@@ -1,4 +1,4 @@
-from networking.networkcommonclient import AbstractProtocolClient
+from .networkcommonclient import AbstractProtocolClient
 
 __author__ = 'roberto'
 
@@ -13,11 +13,11 @@ class FileProtocolClient(AbstractProtocolClient):
 
     def receive(self):
 
-    	expected_len = self.MSGLEN_FIELD_SZ
+        expected_len = self.MSGLEN_FIELD_SZ
 
-    	self.init_recv_buffer(expected_len)
+        self.init_recv_buffer(expected_len)
 
-    	while not self.msg_recv():
+        while not self.msg_recv():
             pass
 
         self.data['MSG_LEN'] = int.from_bytes(self.databuffer, self.NETWORK_ENDIANNESS)
@@ -26,7 +26,7 @@ class FileProtocolClient(AbstractProtocolClient):
 
         self.init_recv_buffer(expected_len)
 
-    	while not self.msg_recv():
+        while not self.msg_recv():
             pass
 
         self.data['MESSAGE'] = str(self.databuffer, self.STRING_DEFAULT_ENCODING)
@@ -37,14 +37,12 @@ class FileProtocolClient(AbstractProtocolClient):
 
     def file_send(self):
 
-    	
-
-    	self.status = self.ST_END
+        self.status = self.ST_END
 
     def define_protocol(self):
 
         self.protocol = {
-        	self.ST_READY_RECEIVE: self.receive,
-        	self.ST_FILE_SEND: file_send,
-        	self.ST_END: self.idle
+            self.ST_READY_RECEIVE: self.receive,
+            self.ST_FILE_SEND: self.file_send,
+            self.ST_END: self.idle
         }

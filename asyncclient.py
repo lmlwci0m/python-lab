@@ -8,7 +8,7 @@ import sys
 
 from networking import networkcommon
 from networking.messageprotocolclient import MessageProtocolClient
-from networking.networkcommonclient import AbstractProtClient
+from networking.networkcommonclient import AbstractProtocolClient
 
 __author__ = 'roberto'
 

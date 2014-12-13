@@ -1,10 +1,9 @@
-from networking.networkcommonserver import AbstractProtServer
+from .networkcommonserver import AbstractProtocolServer
 
 __author__ = 'roberto'
 
 
-class MessageProtocolServer(AbstractProtServer):
-
+class MessageProtocolServer(AbstractProtocolServer):
 
     def status_0(self):
         """WELCOME_MESSAGE is set by define_protocol().
