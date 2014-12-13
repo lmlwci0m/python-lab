@@ -19,6 +19,9 @@ def main():
     selected_remote_port = 8081
     selected_end_protocol_status = 2
 
+    if len(sys.argv) > 1:
+        selected_remote_host = sys.argv[1]
+
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as client_socket:
 
         print("Client socket initialized. Estabilishing connection with {}:{}".format(selected_remote_host, selected_remote_port))
