@@ -39,7 +39,7 @@ def main():
     print("Starting Asynchronous Communication Server...")
 
     selected_bind_addr = INADDR_ANY
-    selected_bind_port = 8091
+    selected_bind_port = 8081
     selected_blocking_mode = False
     selected_backlog = 0
     selected_timeout = 0

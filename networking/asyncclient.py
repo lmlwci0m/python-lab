@@ -16,7 +16,7 @@ __author__ = 'roberto'
 def main():
 
     selected_remote_host = '127.0.0.1'
-    selected_remote_port = 8091
+    selected_remote_port = 8081
     selected_end_protocol_status = 2
 
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as client_socket:

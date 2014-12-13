@@ -6,23 +6,26 @@ __author__ = 'roberto'
 class AbstractProtClient(networkcommon.AbstractProt):
     """General implementation of socket wrapper for initialization.
 
-        General steps for sending a message:
+        General steps for receiving a message:
 
-            Step 1: prepare message
-                self.data["MESSAGE"] = "messaage content"
+            Step 1: acquire message lenght
+                expected_len = self.MSGLEN_FIELD_SZ
 
-            Step 2: init message
-                message_len_as_bytes = self.get_str_encoded("MESSAGE")
-                self.msg_send_init(message_len_as_bytes)
+            Step 1 (ALT): acquire message lenght
+                expected_len = self.data['MEG_LEN']
 
-            Step 2 (ALT): init message len
-                message_as_bytes = self.get_str_len_encoded("MESSAGE")
-                self.msg_send_init(message_as_bytes)
+            Step 2: initialize buffer for message receiving
+                self.init_recv_buffer(expected_len)
 
-            Step 3: blocking send
-                msg = self.msg_next()
-                while not self.msg_send(msg):
-                    msg = self.msg_next()
+            Step 3 blocking receive
+                while not self.msg_recv():
+                    pass
+
+            Step 4 (ALT): getting string data from buffer if needed
+                self.data['MESSAGE'] = str(self.databuffer, self.STRING_DEFAULT_ENCODING)
+
+            Step 4 (ALT): getting integer data from buffer if needed
+                self.data['MSG_LEN'] = int.from_bytes(self.databuffer, self.NETWORK_ENDIANNESS)
 
     """
 
