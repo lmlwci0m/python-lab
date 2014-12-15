@@ -8,6 +8,7 @@ import sys
 
 from networking import networkcommon
 from networking.messageprotocolclient import MessageProtocolClient
+from networking.fileprotocolclient import FileProtocolClient
 from networking.networkcommonclient import AbstractProtocolClient
 
 __author__ = 'roberto'
@@ -37,7 +38,7 @@ def main():
                 #
                 # Wrapping socket into the ProtClient structure
                 #
-                prot = MessageProtocolClient(client_socket)
+                prot = FileProtocolClient(client_socket)
 
                 #
                 # Applying the protocol until end...

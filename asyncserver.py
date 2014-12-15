@@ -26,6 +26,7 @@ import select
 
 from networking import networkcommon
 from networking.messageprotocolserver import MessageProtocolServer
+from networking.fileprotocolserver import FileProtocolServer
 
 __author__ = 'roberto'
 
@@ -115,7 +116,7 @@ def main():
                         #
                         # Wrapping and mapping socket to a new Prot instance
                         #
-                        protocol_instances[client_socket] = MessageProtocolServer(client_socket, to_read, to_write, client_list, address)
+                        protocol_instances[client_socket] = FileProtocolServer(client_socket, to_read, to_write, client_list, address)
                         print("Accepted connection from {}".format(address))
 
                     except BlockingIOError:  # Windows management
@@ -133,6 +134,7 @@ def main():
                     protocol_instances[client_socket].progress()
 
                 for client_socket in in_error:
+                    print("Error using connection {}".format(str(client_socket)))
                     pass  # TODO
 
         except KeyboardInterrupt:

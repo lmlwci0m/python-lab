@@ -64,7 +64,14 @@ class AbstractProtocol(object):
         return self.data[name].encode(self.STRING_DEFAULT_ENCODING)
 
     def get_str_len_encoded(self, name):
-        return len(self.data[name]).to_bytes(self.MSGLEN_FIELD_SZ, self.NETWORK_ENDIANNESS)
+        return len(self.get_str_encoded(name)).to_bytes(self.MSGLEN_FIELD_SZ, self.NETWORK_ENDIANNESS)
+        #return len(self.data[name]).to_bytes(self.MSGLEN_FIELD_SZ, self.NETWORK_ENDIANNESS)
+
+    def get_rcvd_msg_int(self):
+        return int.from_bytes(self.databuffer, self.NETWORK_ENDIANNESS)
+
+    def get_rcvd_msg_str(self):
+        return str(self.databuffer, self.STRING_DEFAULT_ENCODING)
 
     def idle(self):
         pass

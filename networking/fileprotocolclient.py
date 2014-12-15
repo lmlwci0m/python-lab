@@ -37,7 +37,36 @@ class FileProtocolClient(AbstractProtocolClient):
 
     def file_send(self):
 
+        self.data['MESSAGE'] = input("Scrivi il nome della risorsa: ")
+
+        self.msg_send_init(self.get_str_len_encoded('MESSAGE'))
+
+        msg = self.msg_next()
+        while not self.msg_send(msg):
+            msg = self.msg_next()
+
+        self.msg_send_init(self.get_str_encoded('MESSAGE'))
+
+        msg = self.msg_next()
+        while not self.msg_send(msg):
+            msg = self.msg_next()
+
+        self.data['MESSAGE'] = input("Scrivi il messaggio da inviare: ")
+
+        self.msg_send_init(self.get_str_len_encoded('MESSAGE'))
+
+        msg = self.msg_next()
+        while not self.msg_send(msg):
+            msg = self.msg_next()
+
+        self.msg_send_init(self.get_str_encoded('MESSAGE'))
+
+        msg = self.msg_next()
+        while not self.msg_send(msg):
+            msg = self.msg_next()
+
         self.status = self.ST_END
+
 
     def define_protocol(self):
 
