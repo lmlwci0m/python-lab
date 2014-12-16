@@ -94,7 +94,7 @@ class FileProtocolServer(AbstractProtocolServer):
     def receive_name_continue(self):
 
         if not self.msg_recv():
-            self.status = ST_RECEIVE_NAME_CONTINUE
+            self.status = self.ST_RECEIVE_NAME_CONTINUE
         else:
             self.data['FILE_NAME'] = self.get_rcvd_msg_str()
             self.status = self.ST_RECEIVE_LEN
@@ -132,7 +132,7 @@ class FileProtocolServer(AbstractProtocolServer):
     def receive_file_continue(self):
 
         if not self.msg_recv():
-            self.status = ST_RECEIVE_CONTINUE
+            self.status = self.ST_RECEIVE_CONTINUE
             self.push_to_read()
         else:
             self.write_file(self.get_rcvd_msg_str())
