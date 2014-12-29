@@ -1,7 +1,7 @@
+__author__ = 'roberto'
+
 import os
 from utils.objects import UtilsFactory
-
-__author__ = 'roberto'
 
 
 WIN_JAVA_7 = "c:\\Program Files\\Java\\jdk1.7.0_51\\bin\\javac.exe"

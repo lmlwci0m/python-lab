@@ -1,8 +1,8 @@
+__author__ = 'roberto'
+
 import os
 from javamgmt.classcreator import JavaMgmt, ClassCreatorPackage
 from javamgmt.compilerlauncher import CompilerLauncher
-
-__author__ = 'roberto'
 
 
 class PackageCreator(JavaMgmt):

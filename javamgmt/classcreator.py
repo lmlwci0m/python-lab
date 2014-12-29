@@ -1,6 +1,6 @@
-import os
-
 __author__ = 'roberto'
+
+import os
 
 
 class JavaMgmt(object):

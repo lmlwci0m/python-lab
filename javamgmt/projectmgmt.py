@@ -1,7 +1,8 @@
+__author__ = 'roberto'
+
 import os
 from javamgmt.packagecreator import PackageManager
 
-__author__ = 'roberto'
 
 # Set flag to True for structure creation
 create = True

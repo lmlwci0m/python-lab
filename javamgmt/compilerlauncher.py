@@ -1,9 +1,8 @@
+__author__ = 'roberto'
+
 import subprocess
 from javamgmt import environment
 from javamgmt.classcreator import JavaMgmt
-
-__author__ = 'roberto'
-
 
 
 class CompilerLauncher(JavaMgmt):

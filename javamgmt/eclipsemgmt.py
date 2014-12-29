@@ -1,6 +1,6 @@
-import os
-
 __author__ = 'roberto'
+
+import os
 
 
 ECLIPSE_PATH = 'D:\\progetti\\java_projects_eclipse_kepler\\eclipse_sr2\\'
