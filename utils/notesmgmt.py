@@ -1,7 +1,8 @@
+__author__ = 'roberto'
+
 import os
 import sys
 
-__author__ = 'roberto'
 
 import xml.etree.ElementTree as ET
 

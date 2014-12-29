@@ -1,7 +1,7 @@
+__author__ = 'roberto'
+
 import os
 from utils.objects import BaseFactory
-
-__author__ = 'roberto'
 
 
 from utils import encutils

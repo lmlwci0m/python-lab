@@ -1,10 +1,9 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-import functools
 
 __author__ = 'roberto'
 
-
+import functools
 import sqlite3
 import array
 import stat

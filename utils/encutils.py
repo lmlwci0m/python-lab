@@ -1,6 +1,6 @@
-import sys
-
 __author__ = 'roberto'
+
+import sys
 
 
 DEFAULT_FILE_ENCODING = "utf-8"

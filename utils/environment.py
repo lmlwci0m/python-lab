@@ -1,7 +1,7 @@
+__author__ = 'roberto'
+
 import os
 from utils.objects import UtilsFactory
-
-__author__ = 'roberto'
 
 
 if __name__ == '__main__':
