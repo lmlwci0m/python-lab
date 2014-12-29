@@ -1,11 +1,12 @@
 #!/usr/bin/env python
 
+__author__ = 'roberto'
+
 """Quicksort in python.
 
 Basic in-place implementation of quicksort algorithm based on 2 way partition.
 """
 
-__author__ = 'roberto'
 
 def iorj(index, i, j):
     """Useful function for printing index position over the array list."""

@@ -1,7 +1,7 @@
+__author__ = 'roberto'
+
 from utils import objects
 from utils.printingutils import print_iter, print_for
-
-__author__ = 'roberto'
 
 
 class TestListIterator(object):

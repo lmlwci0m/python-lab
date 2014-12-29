@@ -1,7 +1,9 @@
 #!/usr/bin/env python2
-from utils.objects import BaseFactory
 
 __author__ = 'roberto'
+
+from utils.objects import BaseFactory
+
 
 import sys
 
