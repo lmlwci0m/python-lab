@@ -1,6 +1,7 @@
+__author__ = 'roberto'
+
 from crypto.analysis import FreqAnalysis
 
-__author__ = 'roberto'
 
 from functools import partial
 from utils.objects import BaseFactory, ExtendedFactory

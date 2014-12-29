@@ -1,8 +1,8 @@
+__author__ = 'roberto'
+
 import hashlib
 import os
 import sys
-
-__author__ = 'roberto'
 
 
 if __name__ == '__main__':
