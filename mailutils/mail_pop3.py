@@ -1,14 +1,11 @@
-import os
-
 __author__ = 'roberto'
 
+import os
 import poplib
 from email import parser
 
 
 def main():
-
-
 
     host = 'pop.gmail.com'
     pop_conn = poplib.POP3_SSL(host)

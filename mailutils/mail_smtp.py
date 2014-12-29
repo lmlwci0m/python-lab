@@ -1,7 +1,8 @@
+__author__ = 'roberto'
+
 import os
 from utils import encutils
 
-__author__ = 'roberto'
 
 import smtplib
 
@@ -70,7 +71,7 @@ def main():
 
     message = define_multipart_message(sender, recipient, subject, body)
 
-    send_mail(message.as_string(), recipient)
+    send_mail(message.as_string(), recipient, "host", int("port"), "username", "password")
 
 
 if __name__ == '__main__':
