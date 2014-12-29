@@ -1,6 +1,6 @@
-from utils.objects import ObjectsFactory
-
 __author__ = 'roberto'
+
+from utils.objects import ObjectsFactory
 
 import unittest
 

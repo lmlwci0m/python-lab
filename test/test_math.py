@@ -1,7 +1,7 @@
+__author__ = 'roberto'
+
 import unittest
 from mathutils import basic
-
-__author__ = 'roberto'
 
 
 class TestMath(unittest.TestCase):
