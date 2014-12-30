@@ -6,7 +6,7 @@ import wx
 class MainFrameUtils(wx.Frame):
 
     def init_widget_list(self):
-        self.widget_list = {self.NAME: self}
+        self.widget_list = {"main_frame": self}
 
     def get_widget(self, name):
         return self.widget_list[name]
