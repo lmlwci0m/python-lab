@@ -15,7 +15,7 @@ startup = os.environ.get('PYTHONSTARTUP')
 print("User environment PYTHONSTARTUP = {0:s}".format(startup))
 
 # Adding toappend paths to sys.path for imports
-# C:\Users\rpancald.CORP\PycharmProjects\python-lab
+# C:\Users\rp\PycharmProjects\python-lab
 toappend = [
     os.path.dirname(startup),
 ]

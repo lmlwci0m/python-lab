@@ -29,9 +29,9 @@ class AbstractProtocolClient(networkcommon.AbstractProtocol):
 
     """
 
-    def __init__(self, client_socket):
+    def __init__(self, main_location, client_socket):
         """Only socket is wrapped."""
 
-        super(AbstractProtocolClient, self).__init__(client_socket)
+        super(AbstractProtocolClient, self).__init__(main_location, client_socket)
 
         self.define_protocol()

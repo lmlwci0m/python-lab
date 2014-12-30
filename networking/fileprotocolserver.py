@@ -2,6 +2,8 @@ from .networkcommonserver import AbstractProtocolServer
 
 __author__ = 'roberto'
 
+import os
+
 
 class FileProtocolServer(AbstractProtocolServer):
 
@@ -24,6 +26,11 @@ class FileProtocolServer(AbstractProtocolServer):
     ST_RECEIVE_CONTINUE = 600
 
     ST_DONE = 6
+
+    def __get_file_root_location(self):
+        """Returs root location for storing files."""
+
+        return self.main_location
 
     def send_ready_len(self):
         """ server --- send welcome message length --> client """
@@ -140,7 +147,8 @@ class FileProtocolServer(AbstractProtocolServer):
             self.close_connection()
 
     def write_file(self, data):
-        with open(self.data['FILE_NAME'], "w") as f:
+
+        with open(os.path.join(self.__get_file_root_location(), self.data['FILE_NAME']), "w") as f:
             f.write(data)
 
     def define_protocol(self):

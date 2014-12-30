@@ -1,4 +1,6 @@
+import sys
 from .networkcommonclient import AbstractProtocolClient
+from .inputwrapper import consoleinput
 
 __author__ = 'roberto'
 
@@ -20,7 +22,7 @@ class FileProtocolClient(AbstractProtocolClient):
         while not self.msg_recv():
             pass
 
-        self.data['MSG_LEN'] = int.from_bytes(self.databuffer, self.NETWORK_ENDIANNESS)
+        self.data['MSG_LEN'] = self.get_rcvd_msg_int()
 
         expected_len = self.data['MSG_LEN']
 
@@ -29,7 +31,7 @@ class FileProtocolClient(AbstractProtocolClient):
         while not self.msg_recv():
             pass
 
-        self.data['MESSAGE'] = str(self.databuffer, self.STRING_DEFAULT_ENCODING)
+        self.data['MESSAGE'] = self.get_rcvd_msg_str()
 
         print(self.data['MESSAGE'])
 
@@ -37,7 +39,7 @@ class FileProtocolClient(AbstractProtocolClient):
 
     def file_send(self):
 
-        self.data['MESSAGE'] = input("Scrivi il nome della risorsa: ")
+        self.data['MESSAGE'] = consoleinput("Scrivi il nome della risorsa: ")
 
         self.msg_send_init(self.get_str_len_encoded('MESSAGE'))
 
@@ -51,7 +53,7 @@ class FileProtocolClient(AbstractProtocolClient):
         while not self.msg_send(msg):
             msg = self.msg_next()
 
-        self.data['MESSAGE'] = input("Scrivi il messaggio da inviare: ")
+        self.data['MESSAGE'] = consoleinput("Scrivi il messaggio da inviare: ")
 
         self.msg_send_init(self.get_str_len_encoded('MESSAGE'))
 

@@ -18,26 +18,37 @@
 #
 #               ...
 #
+
+__author__ = 'roberto'
+
 from abc import abstractmethod
+
+import __main__
 
 import socket
 import sys
 import select
+import os
 
 from networking import networkcommon
 from networking.messageprotocolserver import MessageProtocolServer
 from networking.fileprotocolserver import FileProtocolServer
+from networking.socketwrapper import socketcontext
 
-__author__ = 'roberto'
 
 
 INADDR_ANY = ''
 INADDR_BROADCAST = '<broadcast>'
 
+RUNTIME_DIR = os.getcwd()
+SCRIPT_DIR = os.path.dirname(__main__.__file__)
+
 
 def main():
 
     print("Starting Asynchronous Communication Server...")
+    print("Current python runtime dir is: {}".format(RUNTIME_DIR))
+    print("Current script dir is: {}".format(SCRIPT_DIR))
 
     selected_bind_addr = INADDR_ANY
     selected_bind_port = 8081
@@ -45,7 +56,7 @@ def main():
     selected_backlog = 0
     selected_timeout = 0
 
-    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as server_socket:
+    with socketcontext(socket.AF_INET, socket.SOCK_STREAM) as server_socket:
 
         print("Server socket initialized")
 
@@ -116,7 +127,7 @@ def main():
                         #
                         # Wrapping and mapping socket to a new Prot instance
                         #
-                        protocol_instances[client_socket] = FileProtocolServer(client_socket, to_read, to_write, client_list, address)
+                        protocol_instances[client_socket] = FileProtocolServer(SCRIPT_DIR, client_socket, to_read, to_write, client_list, address)
                         print("Accepted connection from {}".format(address))
 
                     except BlockingIOError:  # Windows management

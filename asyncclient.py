@@ -3,6 +3,11 @@
 #
 # asynclient.py: tester for asyncserver.py
 
+__author__ = 'roberto'
+
+import __main__
+
+import os
 import socket
 import sys
 
@@ -10,8 +15,10 @@ from networking import networkcommon
 from networking.messageprotocolclient import MessageProtocolClient
 from networking.fileprotocolclient import FileProtocolClient
 from networking.networkcommonclient import AbstractProtocolClient
+from networking.socketwrapper import socketcontext
 
-__author__ = 'roberto'
+
+SCRIPT_DIR = os.path.dirname(__main__.__file__)
 
 
 def main():
@@ -23,41 +30,42 @@ def main():
     if len(sys.argv) > 1:
         selected_remote_host = sys.argv[1]
 
-    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as client_socket:
+    with socketcontext(socket.AF_INET, socket.SOCK_STREAM) as client_socket:
 
         print("Client socket initialized. Estabilishing connection with {}:{}".format(selected_remote_host, selected_remote_port))
 
+        #try:
+
+        client_socket.connect((selected_remote_host, selected_remote_port))
+
         try:
 
-            client_socket.connect((selected_remote_host, selected_remote_port))
+            print("Estabilished connection with {}".format(selected_remote_host))
 
-            try:
+            #
+            # Wrapping socket into the ProtClient structure
+            #
+            prot = FileProtocolClient(SCRIPT_DIR, client_socket)
 
-                print("Estabilished connection with {}".format(selected_remote_host))
+            #
+            # Applying the protocol until end...
+            #
+            while prot.status != selected_end_protocol_status:
+                prot.progress()
 
-                #
-                # Wrapping socket into the ProtClient structure
-                #
-                prot = FileProtocolClient(client_socket)
+            print("Client side protocol execution terminated successfully. Shutting down...")
 
-                #
-                # Applying the protocol until end...
-                #
-                while prot.status != selected_end_protocol_status:
-                    prot.progress()
+            #
+            # Shutting down connection
+            #
+            client_socket.shutdown(socket.SHUT_RDWR)
 
-                print("Client side protocol execution terminated successfully. Shutting down...")
+        except:
+            print("Unexpected error: {}".format(sys.exc_info()[0]))
+            raise
 
-                #
-                # Shutting down connection
-                #
-                client_socket.shutdown(socket.SHUT_RDWR)
-
-            except:
-                print("Unexpected error: {}".format(sys.exc_info()[0]))
-
-        except ConnectionRefusedError:
-            print("Connection refused by {}".format(selected_remote_host))
+        #except ConnectionRefusedError:
+        #    print("Connection refused by {}".format(selected_remote_host))
 
     print("Closed connection to {}".format(selected_remote_host))
 

@@ -78,15 +78,12 @@ class AbstractProtocolServer(networkcommon.AbstractProtocol):
 
     """
 
-    def __init__(self, client_socket, to_read, to_write, client_list, address):
+    def __init__(self, main_location, client_socket, to_read, to_write, client_list, address):
         """For server purposes, the list of fd to read and write and
         the client list is set.
         """
 
-        super(AbstractProtocolServer, self).__init__(client_socket)
-
-        self.data_send = None
-        self.data_recv = None
+        super(AbstractProtocolServer, self).__init__(main_location, client_socket)
 
         self.to_read, self.to_write = to_read, to_write
         self.client_list, self.address = client_list, address
