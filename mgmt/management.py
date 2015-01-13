@@ -11,14 +11,17 @@ class ManagementApp(wx.App):
     ON_INIT_OK = True
     MAIN_FRAME_INIT = None
 
-    def __init__(self, *args, **kwargs):
-        super(ManagementApp, self).__init__(*args, **kwargs)
+    def __init__(self, script_path, *args, **kwargs):
         self.main_frame = self.MAIN_FRAME_INIT  # This is the main frame (wx.Frame implementation)
+        self.script_path = script_path
+
+        super(ManagementApp, self).__init__(*args, **kwargs)
+
 
     def init_main_frame(self):
         """Initialization of the main frame. The implementations must set parent as None."""
 
-        self.main_frame = ManagementMainFrame()
+        self.main_frame = ManagementMainFrame(self)
 
     def show_main_frame(self):
         """Call Show on main frame."""
@@ -40,7 +43,7 @@ class ManagementApp(wx.App):
         return self.ON_INIT_OK
 
 
-def start_managerment_app():
+def start_managerment_app(script_path):
     """Main call to management app."""
 
-    return ManagementApp(redirect=False)
+    return ManagementApp(script_path, redirect=False)

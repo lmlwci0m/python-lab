@@ -14,6 +14,12 @@ class MainFrameUtils(wx.Frame):
     def set_widget(self, name, value):
         self.widget_list[name] = value
 
+    def set_app(self, app):
+        self.app = app
+
+    def get_app(self):
+        return self.app
+
 
 class ManagementMainFrame(MainFrameUtils):
 
@@ -41,7 +47,7 @@ class ManagementMainFrame(MainFrameUtils):
     QUIT_MENU_ITEM_WIDGET_NAME = "Quit"
     QUIT_MENU_ITEM_WIDGET_DESC = "Quit application"
 
-    def __init__(self):
+    def __init__(self, app):
         """
         wx.Frame(None, title="Management app",
                          style=wx.MINIMIZE_BOX |
@@ -72,8 +78,21 @@ class ManagementMainFrame(MainFrameUtils):
                                                   name=self.MAIN_FRAME_WIDGET,
                                                   style=self.STYLE)
 
+        self.set_app(app)
         self.init_widget_list()
         self.init_menu_bar()
+
+        panel = wx.Panel(self)
+
+        self.set_widget("main_panel", panel)
+
+        text = wx.TextCtrl(panel, -1, self.app.script_path, (120,120))
+
+        self.set_widget("text_box", text)
+
+        button = wx.Button(panel, -1, "Click")
+
+        self.set_widget("info_button", button)
 
     def init_menu_bar(self):
         """
