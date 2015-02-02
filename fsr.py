@@ -24,6 +24,17 @@ class Filters(object):
     FILE_SCRIPT = "fsr.py"
     FILE_REPLICAS = "replicas.txt"
 
+    IGNORE_LIST = [
+        '2014-12-24-wheezy-raspbian.zip',
+        '2015-02-01-wheezy-raspbian-raspi01.zip',
+
+    ]
+
+    def in_ignore_list(self, filepath):
+        """Verify if filepath is in ignore list."""
+
+        return filepath in self.IGNORE_LIST
+
     def check_links_file(self, content):
         """Verify if content string is links file"""
 
@@ -202,18 +213,21 @@ def diff_replica(filters, script_path):
         filecmp.clear_cache()
     same_elements = current_elems & replica_elems
     for x in same_elements:
-        current_file_path = os.path.join(script_path, x)
-        replica_file_path = os.path.join(dest_path, x)
-        if not filecmp.cmp(current_file_path, replica_file_path):
-            current_mt_timestamp = os.stat(current_file_path)[stat.ST_MTIME]
-            replica_mt_timestamp = os.stat(replica_file_path)[stat.ST_MTIME]
-            current_mt = datetime.datetime.fromtimestamp(current_mt_timestamp)
-            replica_mt = datetime.datetime.fromtimestamp(replica_mt_timestamp)
-            print("difference: {} current: {} replica: {}".format(x, current_mt, replica_mt))
-            if current_mt_timestamp >= replica_mt_timestamp:
-                print("    current seems more recent")
-            else:
-                print("    replica seems more recent")
+        if not filters.in_ignore_list(x):
+            current_file_path = os.path.join(script_path, x)
+            replica_file_path = os.path.join(dest_path, x)
+            if not filecmp.cmp(current_file_path, replica_file_path):
+                current_mt_timestamp = os.stat(current_file_path)[stat.ST_MTIME]
+                replica_mt_timestamp = os.stat(replica_file_path)[stat.ST_MTIME]
+                current_mt = datetime.datetime.fromtimestamp(current_mt_timestamp)
+                replica_mt = datetime.datetime.fromtimestamp(replica_mt_timestamp)
+                print("difference: {} current: {} replica: {}".format(x, current_mt, replica_mt))
+                if current_mt_timestamp >= replica_mt_timestamp:
+                    print("    current seems more recent")
+                else:
+                    print("    replica seems more recent")
+        else:
+            print("file {} is in ignore list, ignored.".format(x))
 
         
 def sync_replica(filters, script_path):
@@ -238,25 +252,30 @@ def sync_replica(filters, script_path):
     print("\nSyncing to: {}".format(dest_path))
     
     for x in os.listdir(dest_path):
-        current_file_path = os.path.join(script_path, x)
-        replica_file_path = os.path.join(dest_path, x)
-        if not filecmp.cmp(current_file_path, replica_file_path):
-            os.remove(os.path.join(dest_path, x))
+        if not filters.in_ignore_list(x):
+            current_file_path = os.path.join(script_path, x)
+            replica_file_path = os.path.join(dest_path, x)
+            if not filecmp.cmp(current_file_path, replica_file_path):
+                os.remove(os.path.join(dest_path, x))
+            else:
+                print("file {} is same, ignored.".format(x))
         else:
-            print("file {} is same, ignored.".format(x))
+            print("file {} is in ignore list, ignored.".format(x))
         
     for x in os.listdir(script_path):
         current_file_path = os.path.join(script_path, x)
         replica_file_path = os.path.join(dest_path, x)
         if os.path.isfile(os.path.join(script_path, x)):
             if os.path.isfile(replica_file_path):
-                if not filecmp.cmp(current_file_path, replica_file_path):
-                    shutil.copy(current_file_path, replica_file_path)
+                if not filters.in_ignore_list(x):
+                    if not filecmp.cmp(current_file_path, replica_file_path):
+                        shutil.copy(current_file_path, replica_file_path)
+                    else:
+                        print("file {} is same, ignored.".format(x))
                 else:
-                    print("file {} is same, ignored.".format(x))
+                    print("file {} is in ignore list, ignored.".format(x))
             else:
                 shutil.copy(current_file_path, replica_file_path)
-                
                 
 def rem_replica(filters, script_path):
 
