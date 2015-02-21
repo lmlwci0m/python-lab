@@ -23,15 +23,25 @@ class Filters(object):
     FILE_LINKS = "links.txt"
     FILE_SCRIPT = "fsr.py"
     FILE_REPLICAS = "replicas.txt"
+    FILE_IGNORE = "ignore.txt"
 
     IGNORE_LIST = [
         '2014-12-24-wheezy-raspbian.zip',
-        '2015-02-01-wheezy-raspbian-raspi01.zip',
+        #'2015-02-01-wheezy-raspbian-raspi01.zip',
 
     ]
 
-    def in_ignore_list(self, filepath):
+    def in_ignore_list(self, script_path, filepath):
         """Verify if filepath is in ignore list."""
+
+        script_directory_contents = os.listdir(script_path)
+
+        if self.check_ignore_in_list(script_directory_contents):
+            ignore_list = []
+            with open(os.path.join(script_path, self.FILE_IGNORE)) as f:
+                for x in f:
+                    ignore_list.append(x.strip())
+            return filepath in ignore_list
 
         return filepath in self.IGNORE_LIST
 
@@ -50,6 +60,11 @@ class Filters(object):
 
         return self.FILE_REPLICAS == content
 
+    def check_ignore_file(self, content):
+        """Verify if content string is replica list file"""
+
+        return self.FILE_IGNORE == content
+
     def check_links_in_list(self, directory_contents):
         """Verify if file list contains links file"""
 
@@ -64,7 +79,12 @@ class Filters(object):
         """Verify if file list contains replica list file"""
 
         return self.FILE_REPLICAS in directory_contents
-        
+
+    def check_ignore_in_list(self, directory_contents):
+        """Verify if file list contains ignore list file"""
+
+        return self.FILE_IGNORE in directory_contents
+
     def check_in_replica(self, script_path, elements_list):
         """Verify if any replica path defined in elements_list is contained in the replica repository
         for the current script (script_path).
@@ -123,6 +143,16 @@ def generate_replicas_file(filters, script_path):
     with open(os.path.join(script_path, filters.FILE_REPLICAS), "w") as f:
         print("File {} opened for writing.".format(filters.FILE_REPLICAS))
         f.write(script_path)
+
+
+def generate_ignore_file(filters, script_path):
+
+    text = "Ignore list file will be generated."
+
+    print("\n{}".format(text))
+
+    with open(os.path.join(script_path, filters.FILE_IGNORE), "w") as f:
+        print("File {} opened for writing.".format(filters.FILE_IGNORE))
 
 
 def show_replicas(filters, script_path):
@@ -213,7 +243,7 @@ def diff_replica(filters, script_path):
         filecmp.clear_cache()
     same_elements = current_elems & replica_elems
     for x in same_elements:
-        if not filters.in_ignore_list(x):
+        if not filters.in_ignore_list(script_path, x):
             current_file_path = os.path.join(script_path, x)
             replica_file_path = os.path.join(dest_path, x)
             if not filecmp.cmp(current_file_path, replica_file_path):
@@ -252,7 +282,7 @@ def sync_replica(filters, script_path):
     print("\nSyncing to: {}".format(dest_path))
     
     for x in os.listdir(dest_path):
-        if not filters.in_ignore_list(x):
+        if not filters.in_ignore_list(script_path, x):
             current_file_path = os.path.join(script_path, x)
             replica_file_path = os.path.join(dest_path, x)
             if not filecmp.cmp(current_file_path, replica_file_path):
@@ -267,7 +297,7 @@ def sync_replica(filters, script_path):
         replica_file_path = os.path.join(dest_path, x)
         if os.path.isfile(os.path.join(script_path, x)):
             if os.path.isfile(replica_file_path):
-                if not filters.in_ignore_list(x):
+                if not filters.in_ignore_list(script_path, x):
                     if not filecmp.cmp(current_file_path, replica_file_path):
                         shutil.copy(current_file_path, replica_file_path)
                     else:
@@ -356,6 +386,9 @@ class CommandManager(object):
     def is_links_file_present(self):
         return self.filters.check_links_in_list(self.script_directory_contents)
 
+    def is_ignore_file_present(self):
+        return self.filters.check_ignore_in_list(self.script_directory_contents)
+
     def verify_python_version(self):
         print("\nPython {} major version is used.".format(sys.version_info.major))
 
@@ -383,10 +416,16 @@ class CommandManager(object):
             self.verify_replica_paths()
             self.verify_script_path_registration()
 
+    def verify_ignore_presence(self):
+
+        if not self.is_ignore_file_present():
+            print("warning: script directory does not have ignore.txt file")
+
     def check(self):
         self.verify_python_version()
         self.verify_links_presence()
         self.verify_replicas_presence()
+        self.verify_ignore_presence()
 
     def show_contents(self):
 
@@ -403,6 +442,8 @@ class CommandManager(object):
                 print("{:60s} < control script file".format(x))
             elif self.filters.check_replicas_file(x):
                 print("{:60s} < replica list file".format(x))
+            elif self.filters.check_ignore_file(x):
+                print("{:60s} < ignore list file".format(x))
             else:
                 print(x)
 
@@ -419,6 +460,9 @@ class CommandManager(object):
 
         if not self.is_replica_file_present():
             self.command_list.append('initreplicas: create replica list file')
+
+        if not self.is_ignore_file_present():
+            self.command_list.append('initignore: create ignore list file')
 
         if self.is_replica_file_present():
             self.command_list.append('replicas: show replica list')
@@ -459,6 +503,9 @@ class CommandManager(object):
 
             elif not self.is_replica_file_present() and command == "initreplicas":
                 generate_replicas_file(self.filters, self.script_path)
+
+            elif not self.is_ignore_file_present() and command == "initignore":
+                generate_ignore_file(self.filters, self.script_path)
 
             elif self.is_replica_file_present() and command == "replicas":
                 show_replicas(self.filters, self.script_path)
