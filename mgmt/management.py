@@ -40,6 +40,9 @@ class ManagementApp(wx.App):
         self.init_main_frame()
         self.show_main_frame()
 
+        for widget in self.main_frame.widget_list:
+            print(widget)
+
         return self.ON_INIT_OK
 
 

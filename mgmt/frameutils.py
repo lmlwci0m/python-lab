@@ -21,18 +21,7 @@ class MainFrameUtils(wx.Frame):
         return self.app
 
 
-class ManagementMainFrame(MainFrameUtils):
-
-    DEFAULT_POS_X = 400
-    DEFAULT_POS_Y = 200
-
-    DEFAULT_SIZE_W = 600
-    DEFAULT_SIZE_H = 400
-
-    TITLE = "Management app"
-    MAIN_FRAME_WIDGET = "main_frame"
-
-    STYLE = wx.DEFAULT_FRAME_STYLE
+class ManagementMenu(MainFrameUtils):
 
     MENU_BAR_WIDGET = "menu_bar"
 
@@ -46,53 +35,6 @@ class ManagementMainFrame(MainFrameUtils):
     QUIT_MENU_ITEM_WIDGET = "quit_menu_item"
     QUIT_MENU_ITEM_WIDGET_NAME = "Quit"
     QUIT_MENU_ITEM_WIDGET_DESC = "Quit application"
-
-    def __init__(self, app):
-        """
-        wx.Frame(None, title="Management app",
-                         style=wx.MINIMIZE_BOX |
-                         wx.MAXIMIZE_BOX |
-                         wx.RESIZE_BORDER |
-                         wx.SYSTEM_MENU |
-                         wx.CAPTION |
-                         wx.CLOSE_BOX |
-                         wx.CLIP_CHILDREN)
-
-        wx.Frame(
-            wx.Window parent,
-            int id=-1,
-            string title='',
-            wx.Point pos = wx.DefaultPosition,
-            wx.Size size = wx.DefaultSize,
-            style = wx.DEFAULT_FRAME_STYLE,
-            string name = "frame")
-
-        """
-
-        # create istself as parent for all widgets
-        super(ManagementMainFrame, self).__init__(None,
-                                                  id=-1,
-                                                  pos=(self.DEFAULT_POS_X, self.DEFAULT_POS_Y),
-                                                  size=(self.DEFAULT_SIZE_W, self.DEFAULT_SIZE_H),
-                                                  title=self.TITLE,
-                                                  name=self.MAIN_FRAME_WIDGET,
-                                                  style=self.STYLE)
-
-        self.set_app(app)
-        self.init_widget_list()
-        self.init_menu_bar()
-
-        panel = wx.Panel(self)
-
-        self.set_widget("main_panel", panel)
-
-        text = wx.TextCtrl(panel, -1, self.app.script_path, (120,120))
-
-        self.set_widget("text_box", text)
-
-        button = wx.Button(panel, -1, "Click")
-
-        self.set_widget("info_button", button)
 
     def init_menu_bar(self):
         """
@@ -133,3 +75,64 @@ class ManagementMainFrame(MainFrameUtils):
 
     def OnInfo(self, event):
         wx.MessageBox('This is a wxPython application', 'Information message')
+
+
+class ManagementMainFrame(ManagementMenu):
+
+    DEFAULT_POS_X = 400
+    DEFAULT_POS_Y = 200
+
+    DEFAULT_SIZE_W = 600
+    DEFAULT_SIZE_H = 400
+
+    TITLE = "Management app"
+    MAIN_FRAME_WIDGET = "main_frame"
+
+    STYLE = wx.DEFAULT_FRAME_STYLE
+
+    def __init__(self, app):
+        """
+        wx.Frame(None, title="Management app",
+                         style=wx.MINIMIZE_BOX |
+                         wx.MAXIMIZE_BOX |
+                         wx.RESIZE_BORDER |
+                         wx.SYSTEM_MENU |
+                         wx.CAPTION |
+                         wx.CLOSE_BOX |
+                         wx.CLIP_CHILDREN)
+
+        wx.Frame(
+            wx.Window parent,
+            int id=-1,
+            string title='',
+            wx.Point pos = wx.DefaultPosition,
+            wx.Size size = wx.DefaultSize,
+            style = wx.DEFAULT_FRAME_STYLE,
+            string name = "frame")
+
+        """
+
+        # create istself as parent for all widgets
+        super(ManagementMainFrame, self).__init__(None,
+                                                  id=-1,
+                                                  pos=(self.DEFAULT_POS_X, self.DEFAULT_POS_Y),
+                                                  size=(self.DEFAULT_SIZE_W, self.DEFAULT_SIZE_H),
+                                                  title=self.TITLE,
+                                                  name=self.MAIN_FRAME_WIDGET,
+                                                  style=self.STYLE)
+
+        self.set_app(app)
+        self.init_widget_list()
+        self.init_menu_bar()
+
+        panel = wx.Panel(self)
+
+        self.set_widget("main_panel", panel)
+
+        text = wx.TextCtrl(panel, -1, self.app.script_path, (10, 120), (400, 25))
+
+        self.set_widget("text_box", text)
+
+        button = wx.Button(panel, -1, "Execute")
+
+        self.set_widget("info_button", button)
