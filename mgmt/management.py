@@ -17,7 +17,6 @@ class ManagementApp(wx.App):
 
         super(ManagementApp, self).__init__(*args, **kwargs)
 
-
     def init_main_frame(self):
         """Initialization of the main frame. The implementations must set parent as None."""
 
