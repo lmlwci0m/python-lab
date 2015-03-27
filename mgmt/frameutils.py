@@ -4,6 +4,7 @@ import wx
 
 
 class MainFrameUtils(wx.Frame):
+    """Base class wrapper for wx frames. A widget dictionary (widget_list) and wx.App reference are maintained."""
 
     def init_widget_list(self):
         self.widget_list = {"main_frame": self}
@@ -53,6 +54,12 @@ class ManagementMenu(MainFrameUtils):
         self.SetMenuBar(menu_bar)
         self.set_widget(self.MENU_BAR_WIDGET, menu_bar)
 
+        self.GenerateMenuContent()
+
+    def GenerateMenuContent(self):
+
+        menu_bar = self.GetMenuBar()
+
         file_menu = wx.Menu()
         menu_bar.Append(file_menu, self.FILE_MENU_WIDGET_CAPTION)
         self.set_widget(self.FILE_MENU_WIDGET, file_menu)
@@ -78,6 +85,7 @@ class ManagementMenu(MainFrameUtils):
 
 
 class ManagementMainFrame(ManagementMenu):
+    """ __init__() -> GenerateContent()"""
 
     DEFAULT_POS_X = 400
     DEFAULT_POS_Y = 200
@@ -121,9 +129,21 @@ class ManagementMainFrame(ManagementMenu):
                                                   name=self.MAIN_FRAME_WIDGET,
                                                   style=self.STYLE)
 
+        self.logger = app.logging_manager.get_logger(__name__)
+        self.logger.debug("Starting ManagementMainFrame")
+
         self.set_app(app)
+
+        self.logger.debug("Initializing widget list")
         self.init_widget_list()
+
+        self.logger.debug("Initializing menu bar")
         self.init_menu_bar()
+
+        self.GenerateContent()
+
+    def GenerateContent(self):
+        """Put widgets here"""
 
         panel = wx.Panel(self)
 
