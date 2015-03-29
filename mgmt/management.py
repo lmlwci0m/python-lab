@@ -53,6 +53,8 @@ class ManagementApp(wx.App):
 
         self.logger.debug("Executing OnInit method")
 
+        self.logger.debug("script path value is {}".format(self.script_path))
+
         self.init_main_frame()
         self.show_main_frame()
 
